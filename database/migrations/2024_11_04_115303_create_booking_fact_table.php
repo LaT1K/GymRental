@@ -7,22 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('booking_fact', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('alias_id');
+            $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('participant_id');
-            $table->date('date');
-            $table->decimal('amount', 8, 2);
-            $table->string('purpose');
+            $table->date('actual_date');
+            $table->unsignedBigInteger('instead_of_plan_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('alias_id')->references('id')->on('aliases')->onDelete('cascade');
+            $table->foreign('schedule_id')->references('id')->on('schedule')->onDelete('cascade');
             $table->foreign('participant_id')->references('id')->on('participants')->onDelete('cascade');
+            $table->foreign('instead_of_plan_id')->references('id')->on('booking_plan')->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('booking_fact');
     }
 };
