@@ -5,7 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.jsx',
+            input: [
+                'resources/css/app.css',  // Додали CSS для Tailwind
+                'resources/js/app.jsx'     // JS для React
+            ],
             refresh: true,
         }),
         react(),

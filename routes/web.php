@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ParticipantController;
+use App\Http\Controllers\GamePeriodController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -29,9 +30,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 Route::middleware(['auth'])->group(function () {
+    Route::get('/participants', [ParticipantController::class, 'index'])->name('participants.index');
     Route::get('/participants/create', [ParticipantController::class, 'create'])->name('participants.create');
-    Route::post('/participants', [ParticipantController::class, 'store'])->name('participants.store');
+    Route::post('/participants', [ParticipantController::class, 'store'])->name('participants.store'); 
+    Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('participants.show'); 
+    Route::get('/participants/{id}/edit', [ParticipantController::class, 'edit'])->name('participants.edit'); 
+    Route::put('/participants/{id}', [ParticipantController::class, 'update'])->name('participants.update'); 
+    Route::delete('/participants/{id}', [ParticipantController::class, 'destroy'])->name('participants.destroy');
+    Route::get('/game_periods', [GamePeriodController::class, 'index'])->name('game_periods.index');
+    Route::get('/game_periods/create', [GamePeriodController::class, 'create'])->name('game_periods.create');
+    Route::post('/game_periods', [GamePeriodController::class, 'store'])->name('game_periods.store');
 });
+
+
 
 require __DIR__.'/auth.php';

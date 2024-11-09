@@ -17,5 +17,4 @@ composer.phar
 Thumbs.db
 
 # Ignore Docker-related files
-docker-compose.yml
 docker/
