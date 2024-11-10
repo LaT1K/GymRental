@@ -1,5 +1,8 @@
 # Laravel
 /vendor
+/bootstrap/ssr
+.npm
+.composer
 /node_modules
 .env
 .phpunit.result.cache

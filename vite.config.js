@@ -3,12 +3,16 @@ import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost',
+        }
+    },
     plugins: [
         laravel({
-            input: [
-                'resources/css/app.css',  // Додали CSS для Tailwind
-                'resources/js/app.jsx'     // JS для React
-            ],
+            input: 'resources/js/app.jsx',
+            ssr: 'resources/js/ssr.jsx',
             refresh: true,
         }),
         react(),
