@@ -9,6 +9,7 @@
 Homestead.yaml
 Homestead.json
 /public/storage
+/public/hot
 /storage/*.key
 /.vscode
 

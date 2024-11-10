@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import GamePeriodList from '../../Pages/GamePeriods/GamePeriodList';
-import GamePeriodForm from '../../Pages/GamePeriods/GamePeriodForm';
-import { Link } from '@inertiajs/react';
+import GamePeriodList from '@/Pages/GamePeriods/GamePeriodList';
+import GamePeriodForm from '@/Pages/GamePeriods/GamePeriodForm';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 
 const Index = ({ gamePeriods }) => {
     const [isCreating, setIsCreating] = useState(false);
@@ -11,9 +11,16 @@ const Index = ({ gamePeriods }) => {
     };
 
     return (
-        <div className="container mx-auto py-8">
+        <AuthenticatedLayout
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                    Періоди
+                </h2>
+            }
+        >
+            <div className="container mx-auto py-8">
             <h1 className="text-3xl font-bold text-center mb-6">Період гри</h1>
-            
+
             {isCreating ? (
                 <GamePeriodForm onClose={() => setIsCreating(false)} />
             ) : (
@@ -30,6 +37,7 @@ const Index = ({ gamePeriods }) => {
                 </>
             )}
         </div>
+        </AuthenticatedLayout>
     );
 };
 
