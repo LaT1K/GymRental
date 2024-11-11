@@ -17,6 +17,7 @@ class WeeklyBooking extends Model
         'end_time',
         'booking_type',
         'fixed_price',
+        'schedule_id'
     ];
 
     public function participant()

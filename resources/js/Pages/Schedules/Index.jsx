@@ -4,9 +4,19 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 const ScheduleIndex = ({ gamePeriod, schedules }) => {
     const [selectedDate, setSelectedDate] = useState('');
+    const [dayOfWeek, setDayOfWeek] = useState(''); 
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [type, setType] = useState('game');
+
+    const handleDateChange = (e) => {
+        const date = e.target.value;
+        setSelectedDate(date);
+
+        const days = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П’ятниця', 'Субота'];
+        const selectedDay = new Date(date).getDay();
+        setDayOfWeek(days[selectedDay]);
+    };
 
     const handleScheduleSubmit = () => {
         if (!selectedDate || !startTime || !endTime) {
@@ -34,9 +44,12 @@ const ScheduleIndex = ({ gamePeriod, schedules }) => {
                         <input
                             type="date"
                             value={selectedDate}
-                            onChange={(e) => setSelectedDate(e.target.value)}
+                            onChange={handleDateChange}
                             className="w-full p-2 border rounded mt-2"
                         />
+                        {dayOfWeek && (
+                            <p className="mt-2 text-gray-500">{dayOfWeek}</p>
+                        )}
                     </div>
 
                     <div className="mb-6">
@@ -81,7 +94,6 @@ const ScheduleIndex = ({ gamePeriod, schedules }) => {
                 </div>
             </div>
         </AuthenticatedLayout>
-        
     );
 };
 
