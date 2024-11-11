@@ -30,6 +30,24 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    href={route('participants.index')}
+                                    active={route().current('participants.index')}
+                                >
+                                    Гравці
+                                </NavLink>
+                                <NavLink
+                                    href={route('game_periods.index')}
+                                    active={route().current('game_periods.index')}
+                                >
+                                    Періоди гри
+                                </NavLink>
+                                <NavLink
+                                    href={route('prices.index')}
+                                    active={route().current('prices.index')}
+                                >
+                                    Ціни
+                                </NavLink>
                             </div>
                         </div>
 

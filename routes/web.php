@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\GamePeriodController;
+use App\Http\Controllers\PriceController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -42,6 +43,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/game_periods', [GamePeriodController::class, 'index'])->name('game_periods.index');
     Route::get('/game_periods/create', [GamePeriodController::class, 'create'])->name('game_periods.create');
     Route::post('/game_periods', [GamePeriodController::class, 'store'])->name('game_periods.store');
+    Route::get('/pricing', [PriceController::class, 'index'])->name('prices.index');
+    Route::put('/pricing/{price}', [PriceController::class, 'update'])->name('prices.update');
+
 });
 
 
