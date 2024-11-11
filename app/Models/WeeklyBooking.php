@@ -5,20 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Schedule extends Model
+class WeeklyBooking extends Model
 {
     use HasFactory;
 
-    protected $table = 'schedule';
-
     protected $fillable = [
         'period_id',
-        'date',
-        'day',
+        'participant_id',
+        'day_of_week',
         'start_time',
         'end_time',
-        'type',
         'booking_type',
-        'is_processed',
+        'fixed_price',
     ];
+
+    public function participant()
+    {
+        return $this->belongsTo(Participant::class, 'participant_id');
+    }
+
 }

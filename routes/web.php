@@ -7,6 +7,29 @@ use Inertia\Inertia;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\GamePeriodController;
 use App\Http\Controllers\PriceController;
+use App\Http\Controllers\BookingPlanController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\WeeklyBookingController;
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/game_periods/{game_period}/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+    Route::post('/game_periods/{game_period}/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
+
+    Route::get('/game_periods/{game_period}/weekly_bookings', [WeeklyBookingController::class, 'index'])->name('weekly_bookings.index');
+    Route::post('/game_periods/{game_period}/weekly_bookings', [WeeklyBookingController::class, 'store'])->name('weekly_bookings.store');
+    Route::delete('/weekly_bookings/{id}', [WeeklyBookingController::class, 'destroy'])->name('weekly_bookings.destroy');
+
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/booking', [BookingPlanController::class, 'index'])->name('booking.index');
+    Route::post('/booking', [BookingPlanController::class, 'store'])->name('booking.store');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+});
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
