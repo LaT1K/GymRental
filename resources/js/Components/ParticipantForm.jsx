@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 
 const ParticipantForm = ({ participant = {}, isEditing = false }) => {
     const { data, setData, post, put, processing, errors } = useForm({
@@ -9,14 +10,58 @@ const ParticipantForm = ({ participant = {}, isEditing = false }) => {
         joined_date: participant.joined_date || '',
     });
 
+    const [isFormComplete, setIsFormComplete] = useState(false);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (isEditing) {
-            put(`/participants/${participant.id}`);
-        } else {
-            post('/participants');
+
+        // Перевірка на заповнення всіх полів
+        if (!data.name || !data.phone || !data.telegram_username || !data.joined_date) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Помилка',
+                text: 'Будь ласка, заповніть усі поля!',
+            });
+            return;
         }
+
+        const submitAction = isEditing ? put : post;
+        const url = isEditing ? `/participants/${participant.id}` : '/participants';
+
+        submitAction(url, {
+            onError: (error) => {
+                if (error.name) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Помилка',
+                        text: 'Учасник з таким ім\'ям вже існує!',
+                    });
+                }
+            },
+        });
     };
+
+    // Обробник введення для поля телефону (тільки цифри, не більше 10 символів)
+    const handlePhoneInput = (e) => {
+        const value = e.target.value.replace(/\D/g, ''); // Видаляє всі нецифрові символи
+        setData('phone', value.slice(0, 10)); // Обмежує до 10 символів
+    };
+
+    // Обробник введення для Telegram username (тільки англійські букви, цифри та підкреслення)
+    const handleTelegramInput = (e) => {
+        const value = e.target.value.replace(/[^a-zA-Z0-9_]/g, ''); // Видаляє всі символи, крім англійських букв, цифр і підкреслення
+        setData('telegram_username', value);
+    };
+
+    // Оновлення статусу форми при зміні значень полів
+    useEffect(() => {
+        setIsFormComplete(
+            data.name.trim() !== '' &&
+            data.phone.trim().length === 10 && // Перевірка на 10 цифр
+            data.telegram_username.trim() !== '' &&
+            data.joined_date.trim() !== ''
+        );
+    }, [data]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10">
@@ -42,10 +87,11 @@ const ParticipantForm = ({ participant = {}, isEditing = false }) => {
                         <input
                             type="text"
                             value={data.phone}
-                            onChange={e => setData('phone', e.target.value)}
+                            onChange={handlePhoneInput}
                             className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
                             placeholder="Телефон"
                         />
+                        {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                     </div>
 
                     <div>
@@ -53,10 +99,11 @@ const ParticipantForm = ({ participant = {}, isEditing = false }) => {
                         <input
                             type="text"
                             value={data.telegram_username}
-                            onChange={e => setData('telegram_username', e.target.value)}
+                            onChange={handleTelegramInput}
                             className="w-full mt-1 p-3 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
                             placeholder="@username"
                         />
+                        {errors.telegram_username && <p className="text-red-500 text-sm mt-1">{errors.telegram_username}</p>}
                     </div>
 
                     <div>
@@ -73,8 +120,10 @@ const ParticipantForm = ({ participant = {}, isEditing = false }) => {
                     <div className="text-center mt-6">
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700 transition duration-200"
-                            disabled={processing}
+                            className={`w-full py-3 rounded-lg shadow transition duration-200 ${
+                                isFormComplete ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                            }`}
+                            disabled={processing || !isFormComplete}
                         >
                             {isEditing ? "Зберегти Зміни" : "Додати Учасника"}
                         </button>

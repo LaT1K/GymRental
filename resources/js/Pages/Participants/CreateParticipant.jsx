@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import ParticipantForm from '@/Components/ParticipantForm';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 const CreateParticipant = () => {
     const { post } = useForm({
@@ -15,12 +16,15 @@ const CreateParticipant = () => {
     };
 
     return (
-        <>
-            <Head title="Додати учасника" />
-            <div className="container mx-auto mt-8">
-                <ParticipantForm onSubmit={handleSubmit} />
-            </div>
-        </>
+        <AuthenticatedLayout>
+            <>
+                <Head title="Додати учасника" />
+                <div className="container mx-auto mt-8">
+                    <ParticipantForm onSubmit={handleSubmit} />
+                </div>
+            </>
+        </AuthenticatedLayout>
+        
     );
 };
 

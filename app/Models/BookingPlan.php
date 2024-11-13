@@ -13,13 +13,11 @@ class BookingPlan extends Model
 
     protected $fillable = ['schedule_id', 'participant_id', 'planned_date'];
 
-    // Зв'язок з моделлю Schedule
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);
     }
 
-    // Зв'язок з моделлю Participant
     public function participant()
     {
         return $this->belongsTo(Participant::class);

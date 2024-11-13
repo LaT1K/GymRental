@@ -32,6 +32,9 @@ const ScheduleIndex = ({ gamePeriod, schedules }) => {
         });
     };
 
+    // Перевіряємо, чи всі поля заповнені
+    const isFormComplete = selectedDate && startTime && endTime;
+
     return (
         <AuthenticatedLayout>
             <div className="min-h-screen bg-gray-100 py-8">
@@ -87,7 +90,10 @@ const ScheduleIndex = ({ gamePeriod, schedules }) => {
 
                     <button
                         onClick={handleScheduleSubmit}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        className={`px-4 py-2 rounded ${
+                            isFormComplete ? 'bg-blue-500 text-white hover:bg-blue-700' : 'bg-gray-400 text-gray-200'
+                        }`}
+                        disabled={!isFormComplete}
                     >
                         Додати розклад
                     </button>

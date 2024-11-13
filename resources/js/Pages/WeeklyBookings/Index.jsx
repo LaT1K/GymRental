@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { usePage } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 const WeeklyBookingIndex = ({ gamePeriod, bookings, participants, schedules, pricing }) => {
@@ -27,18 +28,31 @@ const WeeklyBookingIndex = ({ gamePeriod, bookings, participants, schedules, pri
 
     const handleBookingSubmit = () => {
         if (!selectedSchedule) {
-            alert("Виберіть день тренування.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Помилка',
+                text: 'Виберіть день тренування.',
+            });
             return;
         }
 
         if (selectedParticipants.length === 0) {
-            alert("Виберіть принаймні одного гравця.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Помилка',
+                text: 'Виберіть принаймні одного гравця.',
+            });
             return;
         }
 
         for (const participantId of selectedParticipants) {
             if (!selectedPricingTypes[participantId]) {
-                alert(`Виберіть тип оплати для гравця з ID ${participantId}.`);
+                const participantName = participants.find(p => p.id === participantId)?.name || 'гравця';
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Помилка',
+                    text: `Виберіть тип оплати для ${participantName}.`,
+                });
                 return;
             }
         }
@@ -62,11 +76,28 @@ const WeeklyBookingIndex = ({ gamePeriod, bookings, participants, schedules, pri
     };
 
     const handleDelete = (id) => {
-        if (confirm("Ви впевнені, що хочете видалити це бронювання?")) {
-            Inertia.delete(`/weekly_bookings/${id}`, {
-                onSuccess: () => Inertia.reload(),
-            });
-        }
+        const participantName = bookings.find(b => b.id === id)?.participant?.name || 'гравця';
+        Swal.fire({
+            title: 'Ви впевнені?',
+            text: `Це бронювання для ${participantName} буде видалено!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Так, видалити!',
+            cancelButtonText: 'Скасувати'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Inertia.delete(`/weekly_bookings/${id}`, {
+                    onSuccess: () => Inertia.reload(),
+                });
+                Swal.fire(
+                    'Видалено!',
+                    `Бронювання для ${participantName} успішно видалено.`,
+                    'success'
+                );
+            }
+        });
     };
 
     const getPricingForSchedule = (scheduleId) => {

@@ -1,6 +1,5 @@
-// resources/js/Pages/GamePeriods/GamePeriodForm.jsx
-import React from 'react';
-import { useForm, usePage } from '@inertiajs/react';
+import React, { useEffect } from 'react';
+import { useForm } from '@inertiajs/react';
 import Button from '@/Components/Button';
 
 const GamePeriodForm = () => {
@@ -9,6 +8,25 @@ const GamePeriodForm = () => {
         end_date: '',
         duration_weeks: '',
     });
+
+    // Функція для обчислення кількості тижнів
+    const calculateWeeks = (start, end) => {
+        if (!start || !end) return '';
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const timeDifference = endDate - startDate;
+        const weeks = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 7));
+        return weeks > 0 ? weeks : '';
+    };
+
+    // Виконуємо розрахунок тривалості при зміні дат
+    useEffect(() => {
+        const weeks = calculateWeeks(data.start_date, data.end_date);
+        setData('duration_weeks', weeks);
+    }, [data.start_date, data.end_date]);
+
+    // Обчислюємо статус форми, чи всі поля заповнені
+    const isFormComplete = data.start_date && data.end_date && data.duration_weeks;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -48,12 +66,17 @@ const GamePeriodForm = () => {
                     <input
                         type="number"
                         value={data.duration_weeks}
-                        onChange={(e) => setData('duration_weeks', e.target.value)}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        readOnly
+                        className="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     {errors.duration_weeks && <p className="text-red-500 text-sm mt-1">{errors.duration_weeks}</p>}
                 </div>
-                <Button type="submit" className="w-full" color="blue" disabled={processing}>
+                <Button
+                    type="submit"
+                    className="w-full"
+                    color="blue"
+                    disabled={processing || !isFormComplete} // Кнопка неактивна, якщо форма не повна
+                >
                     Створити
                 </Button>
             </form>

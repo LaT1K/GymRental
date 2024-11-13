@@ -1,13 +1,30 @@
 import React from 'react';
 import { Link, useForm } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 
 const ParticipantList = ({ participants }) => {
     const { delete: destroy } = useForm();
 
     const handleDelete = (id) => {
-        if (confirm("Ви впевнені, що хочете видалити цього учасника?")) {
-            destroy(`/participants/${id}`);
-        }
+        Swal.fire({
+            title: 'Ви впевнені?',
+            text: "Ви хочете видалити цього учасника?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Так, видалити!',
+            cancelButtonText: 'Скасувати'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroy(`/participants/${id}`);
+                Swal.fire(
+                    'Видалено!',
+                    'Учасника успішно видалено.',
+                    'success'
+                );
+            }
+        });
     };
 
     return (

@@ -23,17 +23,37 @@ class ParticipantController extends Controller
 
     public function store(Request $request)
     {
+        // Перевірка унікальності імені тільки при створенні
         $request->validate([
-            'name' => 'required|string',
-            'phone' => 'nullable|string',
-            'telegram_username' => 'nullable|string',
+            'name' => 'required|string|max:255|unique:participants,name',
+            'phone' => 'required|string|size:10',
+            'telegram_username' => 'required|string|max:255',
             'joined_date' => 'required|date',
         ]);
-
+    
+        // Зберігаємо учасника
         Participant::create($request->all());
-
-        return redirect()->route('participants.index')->with('success', 'Учасника успішно додано');
+    
+        return redirect()->back()->with('success', 'Учасника додано успішно');
     }
+    
+    public function update(Request $request, Participant $participant)
+    {
+        // Валідація вхідних даних
+        $request->validate([
+            'name' => 'required|string|max:255', // Видалено 'unique', щоб дозволити залишати незмінне ім'я
+            'phone' => 'required|string|size:10',
+            'telegram_username' => 'required|string|max:255',
+            'joined_date' => 'required|date',
+        ]);
+    
+        // Оновлення даних учасника
+        $participant->update($request->only(['name', 'phone', 'telegram_username', 'joined_date']));
+    
+        // Перенаправлення на сторінку списку учасників з повідомленням про успіх
+        return redirect()->route('participants.index')->with('success', 'Учасника оновлено успішно');
+    }
+    
 
     public function show($id)
     {
@@ -47,21 +67,6 @@ class ParticipantController extends Controller
         return Inertia::render('Participants/EditParticipantForm', [
             'participant' => $participant
         ]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'phone' => 'nullable|string',
-            'telegram_username' => 'nullable|string',
-            'joined_date' => 'required|date',
-        ]);
-
-        $participant = Participant::findOrFail($id);
-        $participant->update($request->all());
-
-        return redirect()->route('participants.index')->with('success', 'Інформація про учасника оновлена');
     }
 
     public function destroy($id)
