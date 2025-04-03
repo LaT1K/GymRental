@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
 use App\Models\GamePeriod;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -35,7 +35,7 @@ class ScheduleController extends Controller
         Schedule::create([
             'period_id' => $game_period->id,
             'date' => $request->date,
-            'day' => $dayOfWeek, 
+            'day' => $dayOfWeek,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'type' => $request->type,

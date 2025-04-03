@@ -11,8 +11,9 @@ class ParticipantController extends Controller
     public function index()
     {
         $participants = Participant::all();
+
         return Inertia::render('Participants/IndexParticipants', [
-            'participants' => $participants
+            'participants' => $participants,
         ]);
     }
 
@@ -30,13 +31,13 @@ class ParticipantController extends Controller
             'telegram_username' => 'required|string|max:255',
             'joined_date' => 'required|date',
         ]);
-    
+
         // Зберігаємо учасника
         Participant::create($request->all());
-    
+
         return redirect()->back()->with('success', 'Учасника додано успішно');
     }
-    
+
     public function update(Request $request, Participant $participant)
     {
         // Валідація вхідних даних
@@ -46,26 +47,27 @@ class ParticipantController extends Controller
             'telegram_username' => 'required|string|max:255',
             'joined_date' => 'required|date',
         ]);
-    
+
         // Оновлення даних учасника
         $participant->update($request->only(['name', 'phone', 'telegram_username', 'joined_date']));
-    
+
         // Перенаправлення на сторінку списку учасників з повідомленням про успіх
         return redirect()->route('participants.index')->with('success', 'Учасника оновлено успішно');
     }
-    
 
     public function show($id)
     {
         $participant = Participant::findOrFail($id);
+
         return view('participants.show', compact('participant'));
     }
 
     public function edit($id)
     {
         $participant = Participant::findOrFail($id);
+
         return Inertia::render('Participants/EditParticipantForm', [
-            'participant' => $participant
+            'participant' => $participant,
         ]);
     }
 

@@ -22,4 +22,3 @@ class CreateGamePeriodsTable extends Migration
         Schema::dropIfExists('game_periods');
     }
 }
-

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +11,9 @@ class Alias extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['alias_name'];
+    protected $fillable = [
+        'alias_name',
+    ];
 
     public function participants()
     {

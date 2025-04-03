@@ -1,16 +1,15 @@
 <?php
 
+use App\Http\Controllers\BookingPlanController;
+use App\Http\Controllers\GamePeriodController;
+use App\Http\Controllers\ParticipantController;
+use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\WeeklyBookingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\ParticipantController;
-use App\Http\Controllers\GamePeriodController;
-use App\Http\Controllers\PriceController;
-use App\Http\Controllers\BookingPlanController;
-use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\WeeklyBookingController;
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/game_periods/{game_period}/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
@@ -54,7 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/participants', [ParticipantController::class, 'index'])->name('participants.index');
     Route::get('/participants/create', [ParticipantController::class, 'create'])->name('participants.create');
@@ -70,7 +68,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/pricing/{price}', [PriceController::class, 'update'])->name('prices.update');
 
 });
-
-
 
 require __DIR__.'/auth.php';

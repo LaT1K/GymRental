@@ -11,15 +11,16 @@ class PriceController extends Controller
     public function index()
     {
         $prices = Price::all();
+
         return Inertia::render('Prices/Index', [
-            'prices' => $prices
+            'prices' => $prices,
         ]);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'price' => 'required|numeric'
+            'price' => 'required|numeric',
         ]);
 
         $price = Price::findOrFail($id);

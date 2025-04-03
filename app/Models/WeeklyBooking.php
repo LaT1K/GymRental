@@ -17,12 +17,11 @@ class WeeklyBooking extends Model
         'end_time',
         'booking_type',
         'fixed_price',
-        'schedule_id'
+        'schedule_id',
     ];
 
     public function participant()
     {
         return $this->belongsTo(Participant::class, 'participant_id');
     }
-
 }

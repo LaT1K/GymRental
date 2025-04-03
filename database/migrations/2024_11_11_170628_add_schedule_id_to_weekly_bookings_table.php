@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreign('schedule_id')->references('id')->on('schedule')->onDelete('cascade');
         });
     }
-    
+
     public function down(): void
     {
         Schema::table('weekly_bookings', function (Blueprint $table) {
@@ -21,5 +21,4 @@ return new class extends Migration
             $table->dropColumn('schedule_id');
         });
     }
-    
 };

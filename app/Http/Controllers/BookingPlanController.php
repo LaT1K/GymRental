@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookingPlan;
-use App\Models\Schedule;
 use App\Models\Participant;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
