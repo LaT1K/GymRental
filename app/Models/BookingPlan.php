@@ -11,7 +11,11 @@ class BookingPlan extends Model
 
     protected $table = 'booking_plan';
 
-    protected $fillable = ['schedule_id', 'participant_id', 'planned_date'];
+    protected $fillable = [
+        'schedule_id',
+        'participant_id',
+        'planned_date',
+    ];
 
     public function schedule()
     {
