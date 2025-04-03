@@ -1,9 +1,8 @@
 services:
-  app:
+  php:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel_app
     working_dir: /var/www
     depends_on:
       - db
@@ -14,7 +13,6 @@ services:
 
   webserver:
     image: nginx:latest
-    container_name: laravel_webserver
     depends_on:
       - app
     volumes:
@@ -27,7 +25,6 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: laravel_db
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_HOST: "%"
