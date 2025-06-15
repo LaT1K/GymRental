@@ -7,9 +7,12 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WeeklyBookingController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::get('/', function () {
+    redirect()->route('dashboard');
+})->middleware(['auth', 'verified']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/game_periods/{game_period}/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
@@ -18,7 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/game_periods/{game_period}/weekly_bookings', [WeeklyBookingController::class, 'index'])->name('weekly_bookings.index');
     Route::post('/game_periods/{game_period}/weekly_bookings', [WeeklyBookingController::class, 'store'])->name('weekly_bookings.store');
     Route::delete('/weekly_bookings/{id}', [WeeklyBookingController::class, 'destroy'])->name('weekly_bookings.destroy');
-
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -30,22 +32,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 });
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard/Index');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/home', function () {
-    return Inertia::render('Home');
-})->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

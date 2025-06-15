@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GamePeriod\GamePeriodStoreRequest;
 use App\Models\GamePeriod;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class GamePeriodController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $gamePeriods = GamePeriod::all();
 
@@ -17,21 +19,15 @@ class GamePeriodController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('GamePeriods/Create');
     }
 
-    public function store(Request $request)
+    public function store(GamePeriodStoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'duration_weeks' => 'required|integer|min:1',
-        ]);
+        GamePeriod::create($request->validated());
 
-        GamePeriod::create($request->all());
-
-        return redirect()->route('game_periods.index')->with('success', 'Період гри успішно додано');
+        return to_route('game_periods.index');
     }
 }
