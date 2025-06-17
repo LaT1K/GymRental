@@ -10,6 +10,17 @@ use App\Http\Controllers\WeeklyBookingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::post('/telegram/<token>/webhook', function () {
+    $update = Telegram::commandsHandler(true);
+
+    // Commands handler method returns an Update object.
+    // So you can further process $update object
+    // to however you want.
+
+    return 'ok';
+})->withoutMiddleware(['auth', 'verified']);
+
+
 Route::get('/', function () {
     redirect()->route('dashboard');
 })->middleware(['auth', 'verified']);
