@@ -27,10 +27,12 @@ class InitTelega extends Command
      */
     public function handle()
     {
-        $response = Telegram::getTelegram()->getMe();
-
-        Telegram::getTelegram()->commandsHandler(true);
+        $response = Telegram::getMe();
 
         $this->output->writeln(json_encode($response));
+
+        Telegram::commandsHandler(true);
+
+
     }
 }
