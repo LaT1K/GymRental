@@ -30,6 +30,10 @@ class InitTelega extends Command
         $response = Telegram::getMe();
 
         $this->output->writeln(json_encode($response));
+        $this->output->writeln('Set webhook');
+        $this->output->writeln(Telegram::getBotConfig()['webhook_url']);
+        Telegram::deleteWebhook();
+        Telegram::setWebhook(['url' => Telegram::getBotConfig()['webhook_url']]);
 
         Telegram::commandsHandler(true);
 

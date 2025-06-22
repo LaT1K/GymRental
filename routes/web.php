@@ -9,16 +9,32 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WeeklyBookingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
-Route::post('/telegram/<token>/webhook', function () {
-    $update = Telegram::commandsHandler(true);
+Route::middleware('guest')->group(function () {
+    Route::post('/telegram/webhook', function () {
+        Log::info('Telegram webhook called');
 
-    // Commands handler method returns an Update object.
-    // So you can further process $update object
-    // to however you want.
+        $update = Telegram::getWebhookUpdate();
 
-    return 'ok';
-})->withoutMiddleware(['auth', 'verified']);
+        if ($update->getMessage()->get('contact', false)) {
+            Telegram::triggerCommand('not_authorized', $update);
+
+            return 'ok';
+        }
+
+        $update = Telegram::commandsHandler(true);
+
+        Log::info($update);
+
+        // Commands handler method returns an Update object.
+        // So you can further process $update object
+        // to however you want.
+
+        return 'ok';
+    });
+});
+
 
 
 Route::get('/', function () {

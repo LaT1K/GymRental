@@ -1,6 +1,5 @@
 <?php
 
-use Telegram\Bot\Commands\HelpCommand;
 
 return [
     /*
@@ -40,8 +39,26 @@ return [
              */
             'allowed_updates' => null,
             'commands' => [
-                \App\Telegram\Commands\StartCommand::class,
+                \App\Telegram\Commands\Start\StartCommand::class,
+                \App\Telegram\Commands\Start\LoginCommand::class,
+                \App\Telegram\Commands\NotAuthorizedCommand::class,
+                \App\Telegram\Commands\Data\BookingsCommand::class,
+                \App\Telegram\Commands\Data\StatusCommand::class,
+                \App\Telegram\Commands\Data\TransactionsCommand::class,
+                \App\Telegram\Commands\Votes\CurrentVotesCommand::class,
+
             ],
+            'command_groups' => [
+                'first_run' => [
+                    'start',
+                    'register',
+                    'login',
+                ],
+                'data' => [
+                ],
+                'votes' => [
+                ]
+            ]
         ],
 
         //        'mySecondBot' => [
@@ -130,7 +147,7 @@ return [
     |
     */
     'commands' => [
-        HelpCommand::class,
+        \App\Telegram\Commands\HelpCommand::class,
     ],
 
     /*
