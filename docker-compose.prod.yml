@@ -47,7 +47,7 @@ services:
     command: >
       "certbot certonly --webroot --webroot-path=/var/www/certbot
       --email kogyt1998@gmail.com --agree-tos --no-eff-email
-      -d vm32581.cloud.westhostcustoms.com -v"
+      -d volleyball-khpk.khmelnytskyi.ua -v"
     networks:
       - app
 
