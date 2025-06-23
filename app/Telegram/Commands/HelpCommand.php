@@ -30,9 +30,9 @@ final class HelpCommand extends Command
     ];
 
     private const AUTH_ACTIONS = [
-        'current_votes',
+//        'current_votes',
         'status',
-        'bookings',
+        'game_periods',
         'transactions',
         'help',
         'contacts',
@@ -61,7 +61,6 @@ final class HelpCommand extends Command
         $commands = $this->telegram->getCommandBus()->getCommands();
 
         if ($participant = Participant::getCurrentParticipant()) {
-            \Log::info('user is logged in');
             if($participant->telegram_allowed) {
                 $targetNames = self::AUTH_ACTIONS;
             } else {

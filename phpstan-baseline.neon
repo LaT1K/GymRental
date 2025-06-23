@@ -2,7 +2,7 @@ parameters:
 	ignoreErrors:
 		-
 			message: '#^Parameter \#1 \$user of class Illuminate\\Auth\\Events\\Verified constructor expects Illuminate\\Contracts\\Auth\\MustVerifyEmail, App\\Models\\User\|null given\.$#'
-			identifier: argument.type
+			identifier: argument.scheduleType
 			count: 1
 			path: app/Http/Controllers/Auth/VerifyEmailController.php
 
@@ -67,31 +67,31 @@ parameters:
 			path: app/Http/Kernel.php
 
 		-
-			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middleware is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middleware\.$#'
+			message: '#^PHPDoc scheduleType array of property App\\Http\\Kernel\:\:\$middleware is not covariant with PHPDoc scheduleType array\<int, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middleware\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Http/Kernel.php
 
 		-
-			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$middlewareGroups is not covariant with PHPDoc type array\<string, array\<int, string\>\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middlewareGroups\.$#'
+			message: '#^PHPDoc scheduleType array of property App\\Http\\Kernel\:\:\$middlewareGroups is not covariant with PHPDoc scheduleType array\<string, array\<int, string\>\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$middlewareGroups\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Http/Kernel.php
 
 		-
-			message: '#^PHPDoc type array of property App\\Http\\Kernel\:\:\$routeMiddleware is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$routeMiddleware\.$#'
+			message: '#^PHPDoc scheduleType array of property App\\Http\\Kernel\:\:\$routeMiddleware is not covariant with PHPDoc scheduleType array\<string, string\> of overridden property Illuminate\\Foundation\\Http\\Kernel\:\:\$routeMiddleware\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Http/Kernel.php
 
 		-
-			message: '#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			message: '#^PHPDoc scheduleType array\<int, string\> of property App\\Models\\User\:\:\$fillable is not covariant with PHPDoc scheduleType list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/User.php
 
 		-
-			message: '#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+			message: '#^PHPDoc scheduleType array\<int, string\> of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc scheduleType list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/User.php

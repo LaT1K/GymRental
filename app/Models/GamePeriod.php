@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enum\GamePeriodStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,7 +41,7 @@ class GamePeriod extends Model
     ];
 
     protected $casts = [
-        'start_date' => 'date:Y-m-d',
+        'start_date' => 'date:Y-m-d ',
         'end_date' => 'date:Y-m-d',
     ];
 
@@ -52,5 +53,21 @@ class GamePeriod extends Model
     public function setEndDateAttribute($value): void
     {
         $this->attributes['end_date'] = (new Carbon($value))->format('Y-m-d');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($model) {
+            if ($model->status == GamePeriodStatusEnum::PLAYING->value) {
+                \Log::info('GamePeriod updated to playing');
+                self::query()
+                    ->where('id', '!=', $model->id)
+                    ->where(['status'=> GamePeriodStatusEnum::PLAYING])
+                    ->update(['status' => GamePeriodStatusEnum::FINISHED])
+                ;
+            }
+        });
     }
 }

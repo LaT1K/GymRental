@@ -16,10 +16,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/telegram/webhook', function () {
 
         $update = Telegram::getWebhookUpdate();
-        Log::info(json_encode($update));
 
         if ($contact = $update->getMessage()->get('contact')) {
-            Log::info(json_encode($contact));
 
             $phone = $update->getMessage()->get('contact')->get('phone_number');
 

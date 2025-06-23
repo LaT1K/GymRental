@@ -7,6 +7,7 @@ import Table from '@/Components/Table/Table';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { useState } from 'react';
 import DateFilterInputComponent from '@/Components/FilterBar/DateFilterInputComponent';
+import {scheduleType} from "@/utils";
 
 type Schedule = {
   id: number;
@@ -26,6 +27,7 @@ type GamePeriod = {
   id: number;
   start_date: string;
   end_date: string;
+  status: string;
 };
 
 const Index  = ()=> {
@@ -59,12 +61,14 @@ const Index  = ()=> {
         <span className="font-medium text-indigo-600"> / </span>
       </div>
       <div className="flex items-center justify-between mb-6">
-        <Link
-          className="btn-indigo focus:outline-none"
-          href={route('schedules.create', {gamePeriod: gamePeriod.id})}
-        >
-          <span>{t('schedules.create')}</span>
-        </Link>
+        {gamePeriod.status == 'draft' &&
+          <Link
+            className="btn-indigo focus:outline-none"
+            href={route('schedules.create', {gamePeriod: gamePeriod.id})}
+          >
+            <span>{t('schedules.create')}</span>
+          </Link>
+        }
       </div>
       {/*<FilterBar filters={filterFields} onSubmit={handleSubmit} />*/}
       <Table
@@ -73,13 +77,21 @@ const Index  = ()=> {
           { label: t('schedule.start_time'), name: 'start_time'},
           { label: t('schedule.end_time'), name: 'end_time' },
           {
-            label: t('schedule.type'),
+            label: t('schedule.scheduleType'),
             name: 'type',
-            renderCell: row => row.type ? t('schedule.type.' + row.type) :'',
+            renderCell: row => row.type ? t('schedule.scheduleType.' + scheduleType(row.type)) :'',
           },
         ]}
         rows={schedules.data}
-        getRowDetailsUrl={row => route('schedules.edit', {gamePeriod: gamePeriod.id, schedule: row.id})}
+        getRowDetailsUrl={
+          row => {
+            if(gamePeriod.status == 'draft') {
+              return route('schedules.edit', {gamePeriod: gamePeriod.id, schedule: row.id})
+            }
+
+            return false;
+          }
+        }
       />
       <Pagination links={schedules.meta.links} />
     </div>

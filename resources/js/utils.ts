@@ -37,19 +37,19 @@ export function dayOfWeekOptionsList(): Array<{label: string, value: string}> {
   ;
 }
 
-export function types(): Array<string> {
+export function scheduleTypes(): Array<string> {
   return [
     'training',
     'game',
   ]
 }
 
-export function type(type: number): string {
-  return types()[type];
+export function scheduleType(type: any): string {
+  return scheduleTypes()[type];
 }
 
 export function typeOptionsList(): Array<{label: string, value: string}> {
-  return types().map(
+  return scheduleTypes().map(
       (type, index): {label:string, value:string} => {
         return {
           label: type,
@@ -61,12 +61,13 @@ export function typeOptionsList(): Array<{label: string, value: string}> {
 
 export function gamePeriodStatuses(): Array<string> {
   return [
-    'draft',
-    'planned',
-    'playing',
-    'finished',
+    'DRAFT',
+    'PLANNED',
+    'PLAYING',
+    'FINISHED',
   ]
 }
+
 
 export function gamePeriodStatusOptionsList(): Array<{label: string, value: string}> {
   return gamePeriodStatuses().map(

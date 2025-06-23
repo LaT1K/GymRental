@@ -6,17 +6,17 @@ namespace App\Enum;
 
 enum GamePeriodStatusEnum: string
 {
-    case DRAFT = 'draft';
-    case PLANNED = 'planned';
-    case PLAYING = 'playing';
-    case FINISHED = 'finished';
+    case DRAFT = 'DRAFT';
+    case PLANNED = 'PLANNED';
+    case PLAYING = 'PLAYING';
+    case FINISHED = 'FINISHED';
 
     public static function getList(): array
     {
         $list = [];
 
         foreach (self::cases() as $case) {
-            $list[$case->name] =  $case->name;
+            $list[$case->name] = $case->value;
         }
 
         return $list;

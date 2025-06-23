@@ -63,7 +63,14 @@ class ScheduleController extends Controller
             'type' => 'required|string',
         ]);
 
+        $schedule->update($request->only([
+            'day',
+            'start_time',
+            'end_time',
+            'type',
+        ]));
 
+        return redirect()->route('schedules.index', ['gamePeriod' => $gamePeriod->id]);
     }
 
     public function destroy(GamePeriod $gamePeriod, Schedule $schedule) {

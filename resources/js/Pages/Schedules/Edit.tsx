@@ -66,7 +66,7 @@ function Edit() {
                 {t('schedules.index')}
               </Link>
               <span className="font-medium text-indigo-600"> / </span>
-              <span className="font-medium">{t('common.day_of_week.' + schedule.day)} {t('schedule.type.' + schedule.type)}, {schedule.start_time} - {schedule.end_time}</span>
+              <span className="font-medium">{t('common.day_of_week.' + schedule.day)} {t('schedule.scheduleType.' + schedule.type)}, {schedule.start_time} - {schedule.end_time}</span>
             </div>
           </h1>
           <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
@@ -115,7 +115,7 @@ function Edit() {
             </FieldGroup>
             <FieldGroup
               name='type'
-              label={t('schedule.type')}
+              label={t('schedule.scheduleType')}
             >
               <SelectInput
                 value={data.type}

@@ -10,7 +10,7 @@ interface TableProps<T> {
     renderCell?: (row: T) => React.ReactNode;
   }[];
   rows: T[];
-  getRowDetailsUrl?: (row: T) => string;
+  getRowDetailsUrl?: (row: T) => string|false;
 }
 
 export default function Table<T>({

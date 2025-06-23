@@ -16,8 +16,6 @@ class GamePeriodController extends Controller
 {
     public function index(): Response
     {
-        $gamePeriods = GamePeriod::all();
-
         return Inertia::render('GamePeriods/Index', [
             'gamePeriods' => new GamePeriodCollection(
                 GamePeriod::query()->paginate(),

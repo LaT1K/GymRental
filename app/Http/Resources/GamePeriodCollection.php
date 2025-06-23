@@ -20,6 +20,7 @@ class GamePeriodCollection extends ResourceCollection
             'start_date',
             'end_date',
             'duration_weeks',
+            'status',
         );
     }
 }

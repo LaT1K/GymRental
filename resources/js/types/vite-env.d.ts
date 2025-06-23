@@ -1,1 +1,1 @@
-/// <reference types="vite/client" />
+/// <reference scheduleTypes="vite/client" />

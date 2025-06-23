@@ -42,10 +42,10 @@ return [
                 \App\Telegram\Commands\Start\StartCommand::class,
                 \App\Telegram\Commands\Start\LoginCommand::class,
                 \App\Telegram\Commands\NotAuthorizedCommand::class,
-                \App\Telegram\Commands\Data\BookingsCommand::class,
+                \App\Telegram\Commands\Data\GamePeriods::class,
                 \App\Telegram\Commands\Data\StatusCommand::class,
                 \App\Telegram\Commands\Data\TransactionsCommand::class,
-                \App\Telegram\Commands\Votes\CurrentVotesCommand::class,
+//                \App\Telegram\Commands\Votes\CurrentVotesCommand::class,
                 \App\Telegram\Commands\ContactsCommand::class,
 
             ],
@@ -122,7 +122,7 @@ return [
     | Resolve Injected Dependencies in commands [Optional]
     |--------------------------------------------------------------------------
     |
-    | Using Laravel's IoC container, we can easily type hint dependencies in
+    | Using Laravel's IoC container, we can easily scheduleType hint dependencies in
     | our command's constructor and have them automatically resolved for us.
     |
     | Default: true
@@ -159,7 +159,7 @@ return [
     | You can organize a set of commands into groups which can later,
     | be re-used across all your bots.
     |
-    | You can create 4 types of groups:
+    | You can create 4 scheduleTypes of groups:
     | 1. Group using full path to command classes.
     | 2. Group using shared commands: Provide the key name of the shared command
     | and the system will automatically resolve to the appropriate command.
@@ -167,7 +167,7 @@ return [
     | groups of commands to bundle them into one group.
     | 4. You can create a group with a combination of 1, 2 and 3 all together in one group.
     |
-    | Examples shown below are by the group type for you to understand each of them.
+    | Examples shown below are by the group scheduleType for you to understand each of them.
     */
     'command_groups' => [
         /* // Group Type: 1

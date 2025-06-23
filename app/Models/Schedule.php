@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $day
  * @property string $start_time
  * @property string $end_time
- * @property string $type
+ * @property string $scheduleType
  * @property string $booking_type
  * @property int $is_processed
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -52,8 +52,8 @@ class Schedule extends Model
     protected function casts(): array
     {
         return [
-//            'start_time' => 'time:H:i',
-//            'end_time' => 'datetime:H:i',
+            'start_time' => 'datetime:H:i',
+            'end_time' => 'datetime:H:i',
         ];
     }
 }

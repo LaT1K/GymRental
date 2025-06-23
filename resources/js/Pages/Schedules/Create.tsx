@@ -4,7 +4,7 @@ import MainLayout from '@/Layouts/MainLayout';
 import TextInput from '@/Components/Form/TextInput';
 import SelectInput from '@/Components/Form/SelectInput';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
-import {dayOfWeek, dayOfWeekOptionsList, type, typeOptionsList} from "@/utils";
+import {dayOfWeek, dayOfWeekOptionsList, scheduleType, typeOptionsList} from "@/utils";
 import FieldGroup from "@/Components/Form/FieldGroup";
 
 type GamePeriod = {
@@ -22,7 +22,7 @@ function Create() {
         day: dayOfWeek(0),
         start_time: '',
         end_time: '',
-        type: type(0),
+        type: scheduleType(0),
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -106,7 +106,7 @@ function Create() {
               </FieldGroup>
               <FieldGroup
                 name='type'
-                label={t('schedule.type')}
+                label={t('schedule.scheduleType')}
               >
                 <SelectInput
                     value={data.type}

@@ -10,6 +10,7 @@ type GamePeriod = {
     start_date: string;
     end_date: string;
     duration_weeks: number;
+    status: string;
 };
 
 type PaginatedData<T> = {
@@ -39,6 +40,7 @@ export default function Index() {
             { label: t('game_period.start_date'), name: 'start_date',  renderCell: row => row.start_date ? new Date(row.start_date).toLocaleDateString('uk-UA') : '' },
             { label: t('game_period.end_date'), name: 'end_date', renderCell: row => row.end_date ? new Date(row.end_date).toLocaleDateString('uk-UA') : ''   },
             { label: t('game_period.duration_weeks'), name: 'duration_weeks',  },
+            { label: t('game_period.status'), name: 'status', renderCell: row => t('game_period.status_type.' + (row.status)) },
           ]}
           rows={gamePeriods.data}
           getRowDetailsUrl={row => route('game_periods.edit', row.id)}

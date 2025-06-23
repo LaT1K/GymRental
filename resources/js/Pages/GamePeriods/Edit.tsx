@@ -100,15 +100,16 @@ export default function Edit() {
                                 readOnly={true}
                             />
                         </FieldGroup>
-                      <FieldGroup label={t('game_period.status')} name='status'>
+                      <FieldGroup label={t('game_period.status')} name='status'
+                      error={errors.status}
+                      >
                         <SelectInput
-                          options={gamePeriodStatusOptionsList()}>
                           value={data.status}
                           onChange={e => setData('status', e.target.value)}
-                          error={errors.status}
                           renderLabel={(label)=> t('game_period.status_type.' + label) }
+                          options={gamePeriodStatusOptionsList()}
                           required
-                        </SelectInput>
+                        />
                       </FieldGroup>
 
                     </div>
