@@ -30,7 +30,7 @@ class ParticipantController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:participants,name',
-            'phone' => 'required|string|size:10',
+            'phone' => 'required|string|size:13|unique:participants,phone',
             'telegram_username' => 'required|string|max:255',
             'joined_date' => 'required|date',
         ]);
@@ -44,12 +44,18 @@ class ParticipantController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255', // Видалено 'unique', щоб дозволити залишати незмінне ім'я
-            'phone' => 'required|string|size:10',
+            'phone' => 'required|string|size:13',
             'telegram_username' => 'required|string|max:255',
             'joined_date' => 'required|date',
         ]);
 
-        $participant->update($request->only(['name', 'phone', 'telegram_username', 'joined_date']));
+        $participant->update($request->only([
+            'name',
+            'phone',
+            'telegram_username',
+            'joined_date',
+            'telegram_allowed',
+        ]));
 
         return redirect()->route('participants.index')->with('success', 'Учасника оновлено успішно');
     }

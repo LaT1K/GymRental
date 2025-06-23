@@ -4,13 +4,12 @@ import Pagination from '@/Components/Pagination/Pagination';
 import FilterBar, { FilterBarField } from '@/Components/FilterBar/FilterBar';
 import { Participant, PaginatedData } from '@/types';
 import Table from '@/Components/Table/Table';
-import { useTranslation } from 'react-i18next';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { useState } from 'react';
-// Приклад імпорту власного компоненту для дати (реалізуйте при потребі)
 import DateFilterInputComponent from '@/Components/FilterBar/DateFilterInputComponent';
 
 const Index = () => {
-  const { t } = useTranslation();
+  const { t } = useLaravelReactI18n();
 
   const { participants } = usePage<{
     participants: PaginatedData<Participant>;
@@ -79,7 +78,6 @@ const Index = () => {
           href={route('participants.create')}
         >
           <span>{t('participants.create')}</span>
-          <span className="hidden md:inline">{t('participants.participant')}</span>
         </Link>
       </div>
       <FilterBar filters={filterFields} onSubmit={handleSubmit} />
@@ -100,7 +98,7 @@ const Index = () => {
 };
 
 Index.layout = (page: React.ReactNode) => (
-  <MainLayout title="Participants" children={page} />
+  <MainLayout title='participants.index' children={page} />
 );
 
 export default Index;

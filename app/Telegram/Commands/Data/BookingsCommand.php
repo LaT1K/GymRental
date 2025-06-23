@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Telegram\Commands\Data;
 
+use App\Models\BookingPlan;
+use App\Models\GamePeriod;
 use Telegram\Bot\Commands\Command;
 use const _PHPStan_f2f2ddf44\__;
 
@@ -22,9 +24,26 @@ class BookingsCommand extends Command
 
         $text.= PHP_EOL;
 
-        $text .= '2025-06-09 - 2025-07-06';
+        // Old periods
+        $periodsQuery = GamePeriod::query();
+        $periodsQuery
+            ->where('start_date', '<', new \DateTime('2 months ago'))
+            ->orderBy('start_date', 'desc')
+        ;
 
-        $text .= PHP_EOL;
+        $periods = $periodsQuery->get();
+
+
+
+        foreach ($periods as $period) {
+            $text .= __('telegram.game_period'). PHP_EOL;
+            $text .= $period->start_date->format('Y-m-d') . ' - ' . $period->end_date->format('Y-m-d') . PHP_EOL;
+            $text .= PHP_EOL;
+
+            $text .= __('telegram.your_actual_bookings_are') . PHP_EOL;
+
+            Booki
+        }
 
         $text .= __('telegram.your_actual_bookings_are') . PHP_EOL;
 

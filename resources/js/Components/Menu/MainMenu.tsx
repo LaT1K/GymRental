@@ -1,5 +1,5 @@
 import MainMenuItem from '@/Components/Menu/MainMenuItem';
-import {CircleGauge, UsersRoundIcon} from 'lucide-react';
+import {CalendarCheck2Icon, CircleGauge, UsersRoundIcon} from 'lucide-react';
 
 interface MainMenuProps {
   className?: string;
@@ -17,6 +17,11 @@ export default function MainMenu({ className }: MainMenuProps) {
         text="Participants"
         link="participants.index"
         icon={<UsersRoundIcon size={20} />}
+      />
+      <MainMenuItem
+        text="GamePeriods"
+        link="game_periods.index"
+        icon={<CalendarCheck2Icon size={20} />}
       />
     </div>
   );

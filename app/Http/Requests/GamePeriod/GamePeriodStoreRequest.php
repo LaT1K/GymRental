@@ -27,10 +27,10 @@ class GamePeriodStoreRequest extends FormRequest
                 'integer',
                 'min:1',
             ],
-            'status' => [
-                'required',
-                Rule::in(GamePeriodStatusEnum::DRAFT),
-            ],
+//            'status' => [
+//                'required',
+//                Rule::in(GamePeriodStatusEnum::DRAFT),
+//            ],
         ];
     }
 }

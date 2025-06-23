@@ -46,6 +46,7 @@ return [
                 \App\Telegram\Commands\Data\StatusCommand::class,
                 \App\Telegram\Commands\Data\TransactionsCommand::class,
                 \App\Telegram\Commands\Votes\CurrentVotesCommand::class,
+                \App\Telegram\Commands\ContactsCommand::class,
 
             ],
             'command_groups' => [

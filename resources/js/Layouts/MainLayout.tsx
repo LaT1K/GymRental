@@ -3,6 +3,7 @@ import MainMenu from '@/Components/Menu/MainMenu';
 import FlashMessages from '@/Components/Messages/FlashMessages';
 import TopHeader from '@/Components/Header/TopHeader';
 import BottomHeader from '@/Components/Header/BottomHeader';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 interface MainLayoutProps {
   title?: string;
@@ -10,9 +11,10 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ title, children }: MainLayoutProps) {
+  const {t} = useLaravelReactI18n();
   return (
     <>
-      <Head title={title} />
+      <Head title={t(title)} />
       <div className="flex flex-col">
         <div className="flex flex-col h-screen">
           <div className="md:flex">

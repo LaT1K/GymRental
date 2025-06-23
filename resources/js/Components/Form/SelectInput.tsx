@@ -3,6 +3,7 @@ import { ComponentProps } from 'react';
 interface SelectInputProps extends ComponentProps<'select'> {
   error?: string;
   options: { value: string; label: string }[];
+  renderLabel?: (label: string) => string;
 }
 
 export default function SelectInput({
@@ -10,6 +11,7 @@ export default function SelectInput({
   error,
   className,
   options = [],
+  renderLabel = (label: string):string => label,
   ...props
 }: SelectInputProps) {
   return (
@@ -23,7 +25,7 @@ export default function SelectInput({
     >
       {options?.map(({ value, label }, index) => (
         <option key={index} value={value}>
-          {label}
+          {renderLabel(label)}
         </option>
       ))}
     </select>

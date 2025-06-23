@@ -26,6 +26,9 @@ export interface Participant {
   phone: string;
   telegram_username: string;
   joined_date: Date;
+  telegram_id: string;
+  telegram_allowed: boolean;
+  telegram_usage: boolean;
 }
 
 export interface Organization {

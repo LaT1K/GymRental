@@ -43,10 +43,13 @@ class Participant extends Model
         'phone',
         'telegram_username',
         'joined_date',
+        'telegram_id',
+        'telegram_allowed',
+        'telegram_usage',
     ];
 
     protected $casts = [
-        'joined_date' => 'date:yyyy-m-d',
+        'joined_date' => 'date:Y-m-d',
     ];
 
     public function aliases()
@@ -67,5 +70,17 @@ class Participant extends Model
     public function setJoinedDateAttribute($value): void
     {
         $this->attributes['joined_date'] = (new Carbon($value))->format('Y-m-d');
+    }
+
+    public static Participant|null $currentParticipant = null;
+
+    public static function setCurrentParticipant(?Participant $participant): bool {
+        self::$currentParticipant = $participant;
+
+        return true;
+    }
+
+    public static function getCurrentParticipant(): ?Participant {
+        return self::$currentParticipant;
     }
 }

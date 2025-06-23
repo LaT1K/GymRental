@@ -43,12 +43,17 @@ class Schedule extends Model
 
     protected $fillable = [
         'period_id',
-        'date',
         'day',
         'start_time',
         'end_time',
         'type',
-        'booking_type',
-        'is_processed',
     ];
+
+    protected function casts(): array
+    {
+        return [
+//            'start_time' => 'time:H:i',
+//            'end_time' => 'datetime:H:i',
+        ];
+    }
 }

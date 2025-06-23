@@ -2,8 +2,10 @@
 
 namespace App\Telegram\Commands;
 
+use App\Models\Participant;
 use App\Models\User;
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Keyboard\Keyboard;
 
 final class HelpCommand extends Command
 {
@@ -24,6 +26,7 @@ final class HelpCommand extends Command
     private const NOT_AUTH_ACTIONS = [
         'login',
         'help',
+        'contacts',
     ];
 
     private const AUTH_ACTIONS = [
@@ -31,6 +34,13 @@ final class HelpCommand extends Command
         'status',
         'bookings',
         'transactions',
+        'help',
+        'contacts',
+    ];
+
+    private const NOT_ALLOWED_ACTIONS = [
+        'help',
+        'contacts',
     ];
 
     public function __construct()
@@ -43,8 +53,6 @@ final class HelpCommand extends Command
      */
     public function handle(): void
     {
-        $user_id = $this->getTelegram()->getWebhookUpdate()->getMessage()->from->user_id;
-        $user_name = $this->getTelegram()->getWebhookUpdate()->getMessage()->from->username;
 
         \Log::info(json_encode($this->telegram->getCommandBus()->getCommands()));
 
@@ -52,9 +60,16 @@ final class HelpCommand extends Command
 
         $commands = $this->telegram->getCommandBus()->getCommands();
 
-        if ($this->isCurrentlyLoggedIn($user_id, $user_name)) {
-            $targetNames = self::AUTH_ACTIONS;
+        if ($participant = Participant::getCurrentParticipant()) {
+            \Log::info('user is logged in');
+            if($participant->telegram_allowed) {
+                $targetNames = self::AUTH_ACTIONS;
+            } else {
+                $text .= __('telegram.not_authorized') . PHP_EOL;
+                $targetNames = self::NOT_ALLOWED_ACTIONS;
+            }
         } else {
+            \Log::info('user is not logged in');
             $targetNames = self::NOT_AUTH_ACTIONS;
         }
 
@@ -64,14 +79,10 @@ final class HelpCommand extends Command
             }
         }
 
-        $this->replyWithMessage(['text' => $text]);
-    }
-
-    private function isCurrentlyLoggedIn(
-        int|null $telegramUserId,
-        string|null $telegramUserName,
-    ): bool {
-        return true;
+        $this->replyWithMessage([
+            'text' => $text,
+            'reply_markup' => Keyboard::remove(),
+        ]);
     }
 
     private function lastRequestedAction(User $user): string

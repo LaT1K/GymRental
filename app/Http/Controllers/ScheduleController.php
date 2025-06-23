@@ -2,47 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ScheduleCollection;
 use App\Models\GamePeriod;
 use App\Models\Schedule;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ScheduleController extends Controller
 {
-    public function index(GamePeriod $game_period)
+    public function index(GamePeriod $gamePeriod)
     {
-        $schedules = Schedule::where('period_id', $game_period->id)->get();
+        $schedulesQuery = Schedule::where('period_id', $gamePeriod->id);
 
         return Inertia::render('Schedules/Index', [
-            'gamePeriod' => $game_period,
-            'schedules' => $schedules,
+            'gamePeriod' => $gamePeriod,
+            'schedules' => new ScheduleCollection(
+                $schedulesQuery->paginate(),
+            ),
         ]);
     }
 
-    public function store(Request $request, GamePeriod $game_period)
+    public function store(Request $request, GamePeriod $gamePeriod)
     {
         $request->validate([
-            'date' => 'required|date',
+            'day'=> 'required|int|between:0,6',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
             'type' => 'required|string',
         ]);
 
-        // Отримуємо назву дня тижня
-        $dayOfWeek = Carbon::parse($request->date)->locale('uk')->dayName;
-
         Schedule::create([
-            'period_id' => $game_period->id,
-            'date' => $request->date,
-            'day' => $dayOfWeek,
+            'period_id' => $gamePeriod->id,
+            'day' => $request->day,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'type' => $request->type,
-            'booking_type' => $request->type,
-            'is_processed' => true,
         ]);
 
-        return redirect()->route('game_periods.index')->with('message', 'Розклад успішно додано.');
+        return redirect()->route('schedules.index', ['gamePeriod' => $gamePeriod])->with('message', 'Розклад успішно додано.');
+    }
+
+    public function create(GamePeriod $gamePeriod) {
+        return Inertia::render('Schedules/Create', [
+            'gamePeriod' => $gamePeriod,
+        ]);
+    }
+
+    public function edit(GamePeriod $gamePeriod, Schedule $schedule) {
+        return Inertia::render('Schedules/Edit', [
+            'gamePeriod' => $gamePeriod,
+            'schedule' => $schedule,
+        ]);
+    }
+
+    public function update(Request $request, GamePeriod $gamePeriod, Schedule $schedule) {
+        $request->validate([
+            'day'=> 'required|int|between:0,6',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'type' => 'required|string',
+        ]);
+
+
+    }
+
+    public function destroy(GamePeriod $gamePeriod, Schedule $schedule) {
+        Schedule::destroy($schedule->id);
+
+        return redirect()->route('schedules.index', ['gamePeriod' => $gamePeriod->id]);
     }
 }

@@ -28,13 +28,9 @@ class LoginCommand extends Command
             ])
         ;
 
-        $response = $this->replyWithMessage([
+        $this->replyWithMessage([
             'text' => __('telegram.login_requested'),
             'reply_markup' => $login_keyboard,
         ]);
-
-        \Log::info(json_encode([
-            'login_info' => $response,
-        ]));
     }
 }

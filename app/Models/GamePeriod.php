@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +36,21 @@ class GamePeriod extends Model
         'start_date',
         'end_date',
         'duration_weeks',
+        'status',
     ];
+
+    protected $casts = [
+        'start_date' => 'date:Y-m-d',
+        'end_date' => 'date:Y-m-d',
+    ];
+
+    public function setStartDateAttribute($value): void
+    {
+        $this->attributes['start_date'] = (new Carbon($value))->format('Y-m-d');
+    }
+
+    public function setEndDateAttribute($value): void
+    {
+        $this->attributes['end_date'] = (new Carbon($value))->format('Y-m-d');
+    }
 }
